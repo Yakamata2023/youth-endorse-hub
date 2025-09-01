@@ -152,11 +152,14 @@ const Dashboard = () => {
       {/* Header */}
       <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-primary">NYEDA</h1>
-            <p className="text-sm text-muted-foreground">
-              (National Youth Endorsement Analyzer)
-            </p>
+          <div className="flex items-center gap-3">
+            <img src="/NYEDA_logo.png" alt="NYEDA Logo" className="h-8 w-8 object-contain" />
+            <div>
+              <h1 className="text-2xl font-bold text-primary">NYEDA</h1>
+              <p className="text-sm text-muted-foreground">
+                (National Youth Endorsement Analyzer)
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">

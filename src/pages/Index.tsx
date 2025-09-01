@@ -76,6 +76,7 @@ const Index = () => {
           </div>
 
           <div className="space-y-4">
+            <img src="/NYEDA_logo.png" alt="ENDORSA / NYEDA Logo" className="h-16 md:h-20 mx-auto" />
             <h1 
               className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity"
               onClick={() => navigate("/")}
@@ -290,11 +291,11 @@ const Index = () => {
             className="flex items-center justify-center gap-2 mb-4 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => navigate("/")}
           >
-            <Shield className="h-5 w-5 text-primary" />
+            <img src="/NYEDA_logo.png" alt="NYEDA Logo" className="h-6 w-6 object-contain" />
             <span className="font-semibold">NYEDA</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            © 2024 Federal Ministry of Youth Development, Nigeria. All rights reserved.
+            2024 Federal Ministry of Youth Development, Nigeria. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground mt-2">
             National Youth Endorsement Analyzer - Empowering Youth, Building Nigeria

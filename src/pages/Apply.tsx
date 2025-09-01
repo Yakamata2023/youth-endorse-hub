@@ -240,9 +240,12 @@ const Apply = () => {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Dashboard
             </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-primary">NYEDA Application</h1>
-              <p className="text-sm text-muted-foreground">(National Youth Endorsement Analyzer)</p>
+            <div className="flex items-center gap-3">
+              <img src="/NYEDA_logo.png" alt="NYEDA Logo" className="h-8 w-8 object-contain" />
+              <div>
+                <h1 className="text-2xl font-bold text-primary">NYEDA Application</h1>
+                <p className="text-sm text-muted-foreground">(National Youth Endorsement Analyzer)</p>
+              </div>
             </div>
           </div>
         </div>
