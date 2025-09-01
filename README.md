@@ -1,18 +1,14 @@
-# Welcome to your Lovable project
+# ENDORSA – Official Endorsement Analysis Platform for the Ministry of Youth Development, Federal Ministry of Nigeria
+
+ENDORSA is a web platform for managing, analyzing, and tracking endorsement applications for youth-focused initiatives under the Federal Ministry of Youth Development, Nigeria.
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/51e0d2cb-ab1c-4fbe-b0c4-59c5f9021e6a
+Internal project URL or deployment link: (add when available)
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/51e0d2cb-ab1c-4fbe-b0c4-59c5f9021e6a) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -62,12 +58,14 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/51e0d2cb-ab1c-4fbe-b0c4-59c5f9021e6a) and click on Share -> Publish.
+You can deploy to platforms like Vercel or Netlify.
+1. Build: `npm run build`
+2. Deploy the `dist/` directory.
 
 ## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
+Yes. After deployment (e.g., Vercel/Netlify), configure your custom domain via the provider’s dashboard.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Security note: Do not commit real secrets. Use `.env` locally and share placeholders in `.env.example` only.
