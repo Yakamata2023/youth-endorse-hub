@@ -9,34 +9,16 @@ const AuthCallback = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
+        // Exchange OAuth code for a session if present
+        const { data: exchangeData, error: exchangeError } = await supabase.auth.exchangeCodeForSession(window.location.href);
+        if (exchangeError) {
+          console.error('OAuth exchange error:', exchangeError.message);
+        }
         const { data: { session } } = await supabase.auth.getSession();
         
         if (session) {
-          // Check if user has a complete profile
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('user_id', session.user.id)
-            .single();
-
-          if (!profile || !profile.full_name || !profile.phone_number) {
-            // New user or incomplete profile - redirect to signup with prefilled data
-            const userMetadata = session.user.user_metadata;
-            const params = new URLSearchParams();
-            
-            if (session.user.email) {
-              params.append('email', session.user.email);
-            }
-            
-            if (userMetadata?.full_name || userMetadata?.name) {
-              params.append('name', userMetadata.full_name || userMetadata.name);
-            }
-            
-            navigate(`/signup?${params.toString()}`);
-          } else {
-            // Existing user with complete profile
-            navigate('/dashboard');
-          }
+          // User is authenticated, profiles are automatically created by trigger
+          navigate('/dashboard');
         } else {
           // No session, redirect to auth
           navigate('/auth');
