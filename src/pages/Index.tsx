@@ -59,7 +59,7 @@ const Index = () => {
             size="sm"
           >
             <BookOpen className="h-4 w-4 mr-2" />
-            NNYP Policy
+            NYP (National Youth Policy)
           </Button>
         </div>
       )}
@@ -113,7 +113,7 @@ const Index = () => {
               className="text-lg px-8 py-6"
             >
               <FileText className="mr-2 h-5 w-5" />
-              View NNYP Policy
+              View NYP (National Youth Policy)
             </Button>
           </div>
 
