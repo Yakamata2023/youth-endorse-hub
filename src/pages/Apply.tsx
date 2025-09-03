@@ -8,9 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Upload, FileText, Building, Globe, Users, Target, CheckSquare } from "lucide-react";
+import { ArrowLeft, Upload, FileText, Building, Globe, DollarSign, Users, Target } from "lucide-react";
 import { User, Session } from "@supabase/supabase-js";
-import PlasmaBackground from "@/components/ui/plasma-background";
 
 const Apply = () => {
   const navigate = useNavigate();
@@ -22,110 +21,64 @@ const Apply = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    // Section 1: Org Overview
-    org_name: "",
-    org_address: "",
-    contact_person: "",
-    is_registered_ministry: "",
-    
-    // Section 2: Project/Initiative
-    project_title: "",
-    project_description: "",
-    project_objectives: "",
-    project_scope: "",
-    project_duration: "",
-    estimated_beneficiaries: "",
-    key_outcomes: "",
-    
-    // Section 3: NYP Alignment
-    nyp_pillar: "",
-    thematic_area: "",
-    nyp_objectives: []
+    business_name: "",
+    business_type: "",
+    business_description: "",
+    business_sector: "",
+    registration_number: "",
+    number_of_employees: "",
+    annual_revenue_range: "",
+    business_address: "",
+    business_state: "",
+    business_lga: "",
+    website_url: "",
+    years_in_operation: "",
+    business_goals: "",
+    expected_impact: "",
+    funding_requirements: "",
+    employment_plan: "",
+    social_media_links: {
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      linkedin: ""
+    }
   });
 
-  // NYP Policy Framework Data
-  const nypPolicyFramework = {
-    strategic_pillars: [
-      {
-        title: "Economic Transformation, Entrepreneurship and Job Creation",
-        thematic_areas: [
-          "Youth enterprise development and Job creation",
-          "Youth and Agriculture", 
-          "Youth in the Digital, Green and Blue economy"
-        ],
-        objectives: [
-          "Create 12 million jobs over 4 years",
-          "Train 10 million youths in agriculture",
-          "Enhance digital skills for 10 million youths annually"
-        ]
-      },
-      {
-        title: "Physical Health and Mental Wellbeing for Youths",
-        thematic_areas: [
-          "Physical wellbeing",
-          "Mental health of Youths"
-        ],
-        objectives: [
-          "Improve youth health services",
-          "Integrate mental health education",
-          "Deliver health info via digital platforms"
-        ]
-      },
-      {
-        title: "Peace, Security, Rights and Sustainable Environments",
-        thematic_areas: [
-          "Youths for Peace building",
-          "Human rights and freedoms",
-          "Youth Inclusion in Climate Change Action"
-        ],
-        objectives: [
-          "Train 1 million youths in peacebuilding",
-          "Educate on human rights and cyber safety",
-          "Train 100,000 youths in green skills"
-        ]
-      },
-      {
-        title: "Gender, Social Inclusion and Equitable Opportunities for All Youth",
-        thematic_areas: [
-          "Inclusive programs for female, disabled, grassroots youths",
-          "Targeted programs for marginalized youths"
-        ],
-        objectives: [
-          "Promote political inclusion",
-          "Ensure 40% female, 10% disabled, 40% grassroots youth participation",
-          "Create opportunities for 5 million marginalized youths"
-        ]
-      },
-      {
-        title: "Quality Education and Capacity Development for Lifelong Learning",
-        thematic_areas: [
-          "Improve access to education",
-          "Life skills training"
-        ],
-        objectives: [
-          "Integrate life skills in schools",
-          "Establish 1800 literacy centers", 
-          "Support STEM education with bursaries"
-        ]
-      },
-      {
-        title: "Partnerships and Effective Policy Implementation",
-        thematic_areas: [
-          "Multi-sectoral collaboration",
-          "Policy implementation"
-        ],
-        objectives: [
-          "Coordinate youth initiatives with CSOs",
-          "Develop youth database",
-          "Conduct bi-annual youth status reports"
-        ]
-      }
-    ]
-  };
+  // File uploads
+  const [files, setFiles] = useState({
+    cac_document: null as File | null,
+    business_plan: null as File | null,
+    financial_statements: null as File | null,
+    id_document: null as File | null
+  });
 
-  const projectScopes = ["Nationwide", "Zonal", "State", "LGA", "Community"];
-  const projectDurations = ["3 months", "6 months", "1 year", "2 years", "Other (specify)"];
-  const ministryRegistrationOptions = ["Yes", "No", "In Progress"];
+  const businessTypes = [
+    "Sole Proprietorship", "Partnership", "Limited Liability Company", "Public Limited Company", 
+    "Cooperative Society", "Non-Governmental Organization", "Social Enterprise"
+  ];
+
+  const businessSectors = [
+    "Agriculture", "Technology", "Manufacturing", "Services", "Trade & Commerce", 
+    "Healthcare", "Education", "Transportation", "Construction", "Tourism & Hospitality",
+    "Creative Industries", "Financial Services", "Energy & Renewable Resources"
+  ];
+
+  const employeeRanges = [
+    "1-5", "6-10", "11-25", "26-50", "51-100", "101-500", "500+"
+  ];
+
+  const revenueRanges = [
+    "Below ₦1 Million", "₦1M - ₦5M", "₦5M - ₦10M", "₦10M - ₦50M", 
+    "₦50M - ₦100M", "₦100M - ₦500M", "Above ₦500M"
+  ];
+
+  const nigerianStates = [
+    "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno",
+    "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT", "Gombe", "Imo",
+    "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa",
+    "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"
+  ];
 
   useEffect(() => {
     // Check authentication
@@ -157,20 +110,37 @@ const Apply = () => {
     }));
   };
 
-  const handleObjectiveChange = (objective: string, checked: boolean) => {
+  const handleSocialMediaChange = (platform: string, value: string) => {
     setFormData(prev => ({
       ...prev,
-      nyp_objectives: checked 
-        ? [...prev.nyp_objectives, objective]
-        : prev.nyp_objectives.filter(obj => obj !== objective)
+      social_media_links: {
+        ...prev.social_media_links,
+        [platform]: value
+      }
     }));
   };
 
-  const getSelectedPillar = () => {
-    return nypPolicyFramework.strategic_pillars.find(p => p.title === formData.nyp_pillar);
+  const handleFileChange = (field: string, file: File | null) => {
+    setFiles(prev => ({
+      ...prev,
+      [field]: file
+    }));
   };
 
-// Remove file upload logic for now
+  const uploadFile = async (file: File, bucket: string, path: string) => {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(path, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -185,33 +155,45 @@ const Apply = () => {
     }
 
     setLoading(true);
+    setUploading(true);
 
     try {
-      // Submit application with NYP alignment data
+      // Upload files
+      const fileUrls: any = {};
+
+      if (files.cac_document) {
+        const cacPath = `${user.id}/cac_document_${Date.now()}.${files.cac_document.name.split('.').pop()}`;
+        await uploadFile(files.cac_document, 'nnypadocuments', cacPath);
+        fileUrls.cac_document_url = cacPath;
+      }
+
+      if (files.business_plan) {
+        const planPath = `${user.id}/business_plan_${Date.now()}.${files.business_plan.name.split('.').pop()}`;
+        await uploadFile(files.business_plan, 'nnypadocuments', planPath);
+        fileUrls.business_plan_url = planPath;
+      }
+
+      if (files.financial_statements) {
+        const financialPath = `${user.id}/financial_statements_${Date.now()}.${files.financial_statements.name.split('.').pop()}`;
+        await uploadFile(files.financial_statements, 'nnypadocuments', financialPath);
+        fileUrls.financial_statements_url = financialPath;
+      }
+
+      if (files.id_document) {
+        const idPath = `${user.id}/id_document_${Date.now()}.${files.id_document.name.split('.').pop()}`;
+        await uploadFile(files.id_document, 'nnypadocuments', idPath);
+        fileUrls.applicant_id_document_url = idPath;
+      }
+
+      // Submit application
       const { error } = await supabase
         .from('endorsement_applications')
         .insert({
+          ...formData,
           user_id: user.id,
-          business_name: formData.org_name,
-          business_description: formData.project_description,
-          business_goals: formData.project_objectives,
-          expected_impact: formData.key_outcomes,
-          business_address: formData.org_address,
-          business_state: "Nigeria", // Default for organizations
-          business_lga: "N/A", // Will be in additional_certifications
-          business_sector: "Youth Development", // Default for NYP alignment
-          business_type: "Organization", // Default
-          additional_certifications: {
-            contact_person: formData.contact_person,
-            is_registered_ministry: formData.is_registered_ministry,
-            project_title: formData.project_title,
-            project_scope: formData.project_scope,
-            project_duration: formData.project_duration,
-            estimated_beneficiaries: formData.estimated_beneficiaries,
-            nyp_pillar: formData.nyp_pillar,
-            thematic_area: formData.thematic_area,
-            nyp_objectives: formData.nyp_objectives
-          }
+          years_in_operation: parseInt(formData.years_in_operation) || 0,
+          social_media_links: formData.social_media_links,
+          ...fileUrls
         });
 
       if (error) {
@@ -220,7 +202,7 @@ const Apply = () => {
 
       toast({
         title: "Success",
-        description: "Your NYP alignment application has been submitted successfully!",
+        description: "Your endorsement application has been submitted successfully!",
       });
 
       navigate("/dashboard");
@@ -233,6 +215,7 @@ const Apply = () => {
       });
     } finally {
       setLoading(false);
+      setUploading(false);
     }
   };
 
@@ -248,7 +231,7 @@ const Apply = () => {
   }
 
   return (
-    <PlasmaBackground className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       {/* Header */}
       <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
         <div className="container mx-auto px-4 py-4">
@@ -260,8 +243,8 @@ const Apply = () => {
             <div className="flex items-center gap-3">
               <img src="/NYEDA_logo.png" alt="NYEDA Logo" className="h-8 w-8 object-contain" />
               <div>
-                <h1 className="text-2xl font-bold text-primary">NYP Alignment Application</h1>
-                <p className="text-sm text-muted-foreground">(National Youth Policy)</p>
+                <h1 className="text-2xl font-bold text-primary">NYEDA Application</h1>
+                <p className="text-sm text-muted-foreground">(National Youth Endorsement Analyzer)</p>
               </div>
             </div>
           </div>
@@ -269,225 +252,347 @@ const Apply = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-4xl mx-auto bg-background/80 backdrop-blur">
+        <Card className="max-w-4xl mx-auto">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl text-primary">
-              National Youth Policy Alignment Application
+              Ministry of Youth Development Endorsement Application
             </CardTitle>
             <p className="text-muted-foreground">
-              Align your project/initiative with the National Youth Policy framework
+              Complete all sections to apply for official government endorsement
             </p>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Section 1: Organization Overview */}
+              {/* Business Information */}
               <div className="space-y-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Building className="h-5 w-5 text-primary" />
-                  <h3 className="text-lg font-semibold">Section 1: Organization Overview</h3>
+                  <h3 className="text-lg font-semibold">Business Information</h3>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="org_name">Organization Name *</Label>
+                    <Label htmlFor="business_name">Business Name *</Label>
                     <Input
-                      id="org_name"
-                      value={formData.org_name}
-                      onChange={(e) => handleInputChange("org_name", e.target.value)}
+                      id="business_name"
+                      value={formData.business_name}
+                      onChange={(e) => handleInputChange("business_name", e.target.value)}
                       required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="contact_person">Contact Person *</Label>
+                    <Label htmlFor="business_type">Business Type *</Label>
+                    <Select onValueChange={(value) => handleInputChange("business_type", value)} required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select business type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {businessTypes.map(type => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="business_sector">Business Sector *</Label>
+                    <Select onValueChange={(value) => handleInputChange("business_sector", value)} required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select business sector" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {businessSectors.map(sector => (
+                          <SelectItem key={sector} value={sector}>{sector}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="registration_number">CAC Registration Number</Label>
                     <Input
-                      id="contact_person"
-                      value={formData.contact_person}
-                      onChange={(e) => handleInputChange("contact_person", e.target.value)}
+                      id="registration_number"
+                      value={formData.registration_number}
+                      onChange={(e) => handleInputChange("registration_number", e.target.value)}
+                      placeholder="e.g., RC1234567"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="business_description">Business Description *</Label>
+                  <Textarea
+                    id="business_description"
+                    value={formData.business_description}
+                    onChange={(e) => handleInputChange("business_description", e.target.value)}
+                    placeholder="Describe your business activities, products/services offered..."
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Location Information */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Globe className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold">Location & Operations</h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="business_state">State *</Label>
+                    <Select onValueChange={(value) => handleInputChange("business_state", value)} required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {nigerianStates.map(state => (
+                          <SelectItem key={state} value={state}>{state}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="business_lga">Local Government Area *</Label>
+                    <Input
+                      id="business_lga"
+                      value={formData.business_lga}
+                      onChange={(e) => handleInputChange("business_lga", e.target.value)}
+                      placeholder="Enter LGA"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="org_address">Organization Address *</Label>
+                  <Label htmlFor="business_address">Business Address *</Label>
                   <Textarea
-                    id="org_address"
-                    value={formData.org_address}
-                    onChange={(e) => handleInputChange("org_address", e.target.value)}
-                    placeholder="Enter complete organization address"
+                    id="business_address"
+                    value={formData.business_address}
+                    onChange={(e) => handleInputChange("business_address", e.target.value)}
+                    placeholder="Enter complete business address"
                     required
                   />
                 </div>
 
-                <div>
-                  <Label htmlFor="is_registered_ministry">Is your Organization registered with the Ministry? (in case of NGO)</Label>
-                  <Select onValueChange={(value) => handleInputChange("is_registered_ministry", value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select registration status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ministryRegistrationOptions.map(option => (
-                        <SelectItem key={option} value={option}>{option}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="website_url">Website URL</Label>
+                    <Input
+                      id="website_url"
+                      type="url"
+                      value={formData.website_url}
+                      onChange={(e) => handleInputChange("website_url", e.target.value)}
+                      placeholder="https://www.example.com"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="years_in_operation">Years in Operation</Label>
+                    <Input
+                      id="years_in_operation"
+                      type="number"
+                      min="0"
+                      value={formData.years_in_operation}
+                      onChange={(e) => handleInputChange("years_in_operation", e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
 
-              {/* Section 2: Project/Initiative */}
+              {/* Business Scale */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Users className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold">Business Scale & Performance</h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="number_of_employees">Number of Employees</Label>
+                    <Select onValueChange={(value) => handleInputChange("number_of_employees", value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select employee range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {employeeRanges.map(range => (
+                          <SelectItem key={range} value={range}>{range}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="annual_revenue_range">Annual Revenue Range</Label>
+                    <Select onValueChange={(value) => handleInputChange("annual_revenue_range", value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select revenue range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {revenueRanges.map(range => (
+                          <SelectItem key={range} value={range}>{range}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Goals & Impact */}
               <div className="space-y-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Target className="h-5 w-5 text-primary" />
-                  <h3 className="text-lg font-semibold">Section 2: Project/Initiative</h3>
+                  <h3 className="text-lg font-semibold">Goals & Expected Impact</h3>
                 </div>
 
-                <div>
-                  <Label htmlFor="project_title">Title of Project/Initiative *</Label>
-                  <Input
-                    id="project_title"
-                    value={formData.project_title}
-                    onChange={(e) => handleInputChange("project_title", e.target.value)}
-                    required
-                  />
-                </div>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="business_goals">Business Goals & Objectives</Label>
+                    <Textarea
+                      id="business_goals"
+                      value={formData.business_goals}
+                      onChange={(e) => handleInputChange("business_goals", e.target.value)}
+                      placeholder="Describe your short-term and long-term business goals..."
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="project_description">Brief Description or Overview of Project *</Label>
-                  <Textarea
-                    id="project_description"
-                    value={formData.project_description}
-                    onChange={(e) => handleInputChange("project_description", e.target.value)}
-                    placeholder="Provide a comprehensive overview of your project..."
-                    required
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="expected_impact">Expected Social/Economic Impact</Label>
+                    <Textarea
+                      id="expected_impact"
+                      value={formData.expected_impact}
+                      onChange={(e) => handleInputChange("expected_impact", e.target.value)}
+                      placeholder="How will your business contribute to youth development and national growth..."
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="project_objectives">Key Objectives</Label>
-                  <Textarea
-                    id="project_objectives"
-                    value={formData.project_objectives}
-                    onChange={(e) => handleInputChange("project_objectives", e.target.value)}
-                    placeholder="List the main objectives of your project..."
-                  />
+                  <div>
+                    <Label htmlFor="employment_plan">Employment & Job Creation Plan</Label>
+                    <Textarea
+                      id="employment_plan"
+                      value={formData.employment_plan}
+                      onChange={(e) => handleInputChange("employment_plan", e.target.value)}
+                      placeholder="How many jobs do you plan to create? What types of positions..."
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="funding_requirements">Funding Requirements (if any)</Label>
+                    <Textarea
+                      id="funding_requirements"
+                      value={formData.funding_requirements}
+                      onChange={(e) => handleInputChange("funding_requirements", e.target.value)}
+                      placeholder="Describe any funding needs and how it will be used..."
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Social Media */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Globe className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold">Social Media Presence</h3>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="project_scope">Project Scope</Label>
-                    <Select onValueChange={(value) => handleInputChange("project_scope", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select project scope" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {projectScopes.map(scope => (
-                          <SelectItem key={scope} value={scope}>{scope}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="facebook">Facebook</Label>
+                    <Input
+                      id="facebook"
+                      value={formData.social_media_links.facebook}
+                      onChange={(e) => handleSocialMediaChange("facebook", e.target.value)}
+                      placeholder="Facebook page URL"
+                    />
                   </div>
 
                   <div>
-                    <Label htmlFor="project_duration">Project Duration</Label>
-                    <Select onValueChange={(value) => handleInputChange("project_duration", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select project duration" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {projectDurations.map(duration => (
-                          <SelectItem key={duration} value={duration}>{duration}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="twitter">Twitter/X</Label>
+                    <Input
+                      id="twitter"
+                      value={formData.social_media_links.twitter}
+                      onChange={(e) => handleSocialMediaChange("twitter", e.target.value)}
+                      placeholder="Twitter profile URL"
+                    />
                   </div>
-                </div>
 
-                <div>
-                  <Label htmlFor="estimated_beneficiaries">Estimated Number of Beneficiaries</Label>
-                  <Input
-                    id="estimated_beneficiaries"
-                    type="number"
-                    value={formData.estimated_beneficiaries}
-                    onChange={(e) => handleInputChange("estimated_beneficiaries", e.target.value)}
-                    placeholder="Enter estimated number of beneficiaries"
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="instagram">Instagram</Label>
+                    <Input
+                      id="instagram"
+                      value={formData.social_media_links.instagram}
+                      onChange={(e) => handleSocialMediaChange("instagram", e.target.value)}
+                      placeholder="Instagram profile URL"
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="key_outcomes">Key Outcomes</Label>
-                  <Textarea
-                    id="key_outcomes"
-                    value={formData.key_outcomes}
-                    onChange={(e) => handleInputChange("key_outcomes", e.target.value)}
-                    placeholder="Describe the expected key outcomes of your project..."
-                  />
+                  <div>
+                    <Label htmlFor="linkedin">LinkedIn</Label>
+                    <Input
+                      id="linkedin"
+                      value={formData.social_media_links.linkedin}
+                      onChange={(e) => handleSocialMediaChange("linkedin", e.target.value)}
+                      placeholder="LinkedIn company page URL"
+                    />
+                  </div>
                 </div>
               </div>
 
-              {/* Section 3: NYP Alignment */}
+              {/* Document Uploads */}
               <div className="space-y-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <CheckSquare className="h-5 w-5 text-primary" />
-                  <h3 className="text-lg font-semibold">Section 3: Alignment to National Youth Policy (NYP)</h3>
+                  <FileText className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold">Required Documents</h3>
                 </div>
 
-                <div>
-                  <Label htmlFor="nyp_pillar">Select NYP Pillar to which your project aligns *</Label>
-                  <Select onValueChange={(value) => handleInputChange("nyp_pillar", value)} required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select NYP Strategic Pillar" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-background z-50">
-                      {nypPolicyFramework.strategic_pillars.map(pillar => (
-                        <SelectItem key={pillar.title} value={pillar.title} className="text-sm">
-                          {pillar.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="cac_document">CAC Certificate</Label>
+                    <Input
+                      id="cac_document"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileChange("cac_document", e.target.files?.[0] || null)}
+                    />
+                    <p className="text-xs text-muted-foreground">Upload CAC registration certificate</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="business_plan">Business Plan</Label>
+                    <Input
+                      id="business_plan"
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) => handleFileChange("business_plan", e.target.files?.[0] || null)}
+                    />
+                    <p className="text-xs text-muted-foreground">Upload detailed business plan (PDF/DOC)</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="financial_statements">Financial Statements</Label>
+                    <Input
+                      id="financial_statements"
+                      type="file"
+                      accept=".pdf,.xlsx,.xls"
+                      onChange={(e) => handleFileChange("financial_statements", e.target.files?.[0] || null)}
+                    />
+                    <p className="text-xs text-muted-foreground">Upload recent financial records</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="id_document">Government ID</Label>
+                    <Input
+                      id="id_document"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => handleFileChange("id_document", e.target.files?.[0] || null)}
+                    />
+                    <p className="text-xs text-muted-foreground">Upload National ID, Driver's License, or Passport</p>
+                  </div>
                 </div>
-
-                {formData.nyp_pillar && (
-                  <div>
-                    <Label htmlFor="thematic_area">Select Thematic Focus Area</Label>
-                    <Select onValueChange={(value) => handleInputChange("thematic_area", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select thematic focus area" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-background z-50">
-                        {getSelectedPillar()?.thematic_areas.map(area => (
-                          <SelectItem key={area} value={area} className="text-sm">
-                            {area}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                {formData.nyp_pillar && (
-                  <div>
-                    <Label>Select NYP Thematic Objectives (multiple selection allowed)</Label>
-                    <div className="space-y-2 mt-2 max-h-48 overflow-y-auto">
-                      {getSelectedPillar()?.objectives.map(objective => (
-                        <div key={objective} className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            id={`objective-${objective}`}
-                            checked={formData.nyp_objectives.includes(objective)}
-                            onChange={(e) => handleObjectiveChange(objective, e.target.checked)}
-                            className="h-4 w-4 text-primary border-2 border-muted rounded focus:ring-primary"
-                          />
-                          <label htmlFor={`objective-${objective}`} className="text-sm text-foreground">
-                            {objective}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Submit Button */}
@@ -495,17 +600,18 @@ const Apply = () => {
                 <Button 
                   type="submit" 
                   size="lg" 
-                  disabled={loading}
+                  disabled={loading || uploading}
                   className="min-w-48"
                 >
-                  {loading ? "Submitting..." : "Submit NYP Alignment Application"}
+                  {uploading && <Upload className="mr-2 h-4 w-4 animate-spin" />}
+                  {uploading ? "Uploading..." : loading ? "Submitting..." : "Submit Application"}
                 </Button>
               </div>
             </form>
           </CardContent>
         </Card>
       </div>
-    </PlasmaBackground>
+    </div>
   );
 };
 

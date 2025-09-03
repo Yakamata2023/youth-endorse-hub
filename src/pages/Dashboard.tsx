@@ -251,7 +251,7 @@ const Dashboard = () => {
                 </Button>
                 <Button variant="outline" onClick={() => navigate("/policy")}>
                   <FileText className="h-4 w-4 mr-2" />
-                  View NYP (National Youth Policy)
+                  View NNYP Policy
                 </Button>
                 {isAdmin && (
                   <Button variant="secondary" onClick={() => navigate("/admin")}>
