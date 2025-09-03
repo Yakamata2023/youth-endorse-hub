@@ -49,7 +49,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
-      {/* Floating NNYP Policy Button - Removed since it's now global */}
+      {/* Remove header since it's now in the layout */}
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
