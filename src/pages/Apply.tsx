@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Upload, FileText, Building, Globe, Users, Target, CheckSquare } from "lucide-react";
 import { User, Session } from "@supabase/supabase-js";
+import PlasmaBackground from "@/components/ui/plasma-background";
 
 const Apply = () => {
   const navigate = useNavigate();
@@ -247,11 +248,28 @@ const Apply = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
-      {/* Remove existing header since it's now in the layout */}
+    <PlasmaBackground className="min-h-screen">
+      {/* Header */}
+      <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Dashboard
+            </Button>
+            <div className="flex items-center gap-3">
+              <img src="/NYEDA_logo.png" alt="NYEDA Logo" className="h-8 w-8 object-contain" />
+              <div>
+                <h1 className="text-2xl font-bold text-primary">NYP Alignment Application</h1>
+                <p className="text-sm text-muted-foreground">(National Youth Policy)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
 
       <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-4xl mx-auto">
+        <Card className="max-w-4xl mx-auto bg-background/80 backdrop-blur">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl text-primary">
               National Youth Policy Alignment Application
@@ -309,7 +327,7 @@ const Apply = () => {
                     <SelectTrigger>
                       <SelectValue placeholder="Select registration status" />
                     </SelectTrigger>
-                    <SelectContent className="bg-background border border-border z-50 shadow-lg">
+                    <SelectContent>
                       {ministryRegistrationOptions.map(option => (
                         <SelectItem key={option} value={option}>{option}</SelectItem>
                       ))}
@@ -363,7 +381,7 @@ const Apply = () => {
                       <SelectTrigger>
                         <SelectValue placeholder="Select project scope" />
                       </SelectTrigger>
-                      <SelectContent className="bg-background border border-border z-50 shadow-lg">
+                      <SelectContent>
                         {projectScopes.map(scope => (
                           <SelectItem key={scope} value={scope}>{scope}</SelectItem>
                         ))}
@@ -377,7 +395,7 @@ const Apply = () => {
                       <SelectTrigger>
                         <SelectValue placeholder="Select project duration" />
                       </SelectTrigger>
-                      <SelectContent className="bg-background border border-border z-50 shadow-lg">
+                      <SelectContent>
                         {projectDurations.map(duration => (
                           <SelectItem key={duration} value={duration}>{duration}</SelectItem>
                         ))}
@@ -421,7 +439,7 @@ const Apply = () => {
                     <SelectTrigger>
                       <SelectValue placeholder="Select NYP Strategic Pillar" />
                     </SelectTrigger>
-                    <SelectContent className="bg-background border border-border z-50 shadow-lg">
+                    <SelectContent className="bg-background z-50">
                       {nypPolicyFramework.strategic_pillars.map(pillar => (
                         <SelectItem key={pillar.title} value={pillar.title} className="text-sm">
                           {pillar.title}
@@ -438,7 +456,7 @@ const Apply = () => {
                       <SelectTrigger>
                         <SelectValue placeholder="Select thematic focus area" />
                       </SelectTrigger>
-                       <SelectContent className="bg-background border border-border z-50 shadow-lg">
+                      <SelectContent className="bg-background z-50">
                         {getSelectedPillar()?.thematic_areas.map(area => (
                           <SelectItem key={area} value={area} className="text-sm">
                             {area}
@@ -487,7 +505,7 @@ const Apply = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </PlasmaBackground>
   );
 };
 
