@@ -16,7 +16,6 @@ import {
 
 const Index = () => {
   const navigate = useNavigate();
-  const [showPolicyButton, setShowPolicyButton] = useState(true);
 
   const features = [
     {
@@ -50,19 +49,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
-      {/* Floating NNYP Policy Button */}
-      {showPolicyButton && (
-        <div className="fixed top-4 right-4 z-50">
-          <Button 
-            onClick={() => navigate("/policy")}
-            className="shadow-lg hover:shadow-xl transition-all duration-200"
-            size="sm"
-          >
-            <BookOpen className="h-4 w-4 mr-2" />
-            NYP (National Youth Policy)
-          </Button>
-        </div>
-      )}
+      {/* Floating NNYP Policy Button - Removed since it's now global */}
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">

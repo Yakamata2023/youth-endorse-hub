@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Upload, FileText, Building, Globe, Users, Target, CheckSquare } from "lucide-react";
 import { User, Session } from "@supabase/supabase-js";
-import PlasmaBackground from "@/components/ui/plasma-background";
 
 const Apply = () => {
   const navigate = useNavigate();
@@ -248,7 +247,7 @@ const Apply = () => {
   }
 
   return (
-    <PlasmaBackground className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       {/* Header */}
       <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
         <div className="container mx-auto px-4 py-4">
@@ -269,7 +268,7 @@ const Apply = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-4xl mx-auto bg-background/80 backdrop-blur">
+        <Card className="max-w-4xl mx-auto">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl text-primary">
               National Youth Policy Alignment Application
@@ -505,7 +504,7 @@ const Apply = () => {
           </CardContent>
         </Card>
       </div>
-    </PlasmaBackground>
+    </div>
   );
 };
 
