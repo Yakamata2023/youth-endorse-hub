@@ -79,9 +79,9 @@ const Policy = () => {
               Back
             </Button>
             <div>
-              <h1 className="text-2xl font-bold text-primary">NNYP</h1>
+              <h1 className="text-2xl font-bold text-primary">NYP</h1>
               <p className="text-sm text-muted-foreground">
-                Nigerian National Youth Policy
+                National Youth Policy
               </p>
             </div>
           </div>
@@ -125,7 +125,7 @@ const Policy = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-muted-foreground leading-relaxed">
-              The Nigerian National Youth Policy (NNYP) is a comprehensive framework designed to harness 
+              The National Youth Policy (NYP) is a comprehensive framework designed to harness 
               the potential of Nigerian youth aged 18-45 years. It provides strategic direction for youth 
               development programs and ensures coordinated efforts across all sectors to maximize youth 
               contribution to national development.
@@ -155,7 +155,7 @@ const Policy = () => {
           <CardHeader>
             <CardTitle>Key Policy Areas</CardTitle>
             <p className="text-muted-foreground">
-              The NNYP focuses on six critical areas of youth development
+              The NYP focuses on six critical areas of youth development
             </p>
           </CardHeader>
           <CardContent>
@@ -236,7 +236,7 @@ const Policy = () => {
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <h4 className="font-semibold text-amber-800 mb-2">Scoring System</h4>
               <p className="text-sm text-amber-700">
-                Applications are scored from 0-100% based on alignment with NNYP objectives. 
+                Applications are scored from 0-100% based on alignment with NYP objectives. 
                 A minimum score of 70% is typically required for endorsement consideration.
               </p>
             </div>
@@ -250,7 +250,7 @@ const Policy = () => {
               Ready to Apply for Endorsement?
             </h3>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Submit your application for evaluation against the Nigerian National Youth Policy. 
+              Submit your application for evaluation against the National Youth Policy. 
               Our AI-powered analyzer will assess your alignment and provide detailed feedback.
             </p>
             <div className="flex gap-4 justify-center">

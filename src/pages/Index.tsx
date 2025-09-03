@@ -50,19 +50,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
-      {/* Floating NNYP Policy Button */}
-      {showPolicyButton && (
-        <div className="fixed top-4 right-4 z-50">
-          <Button 
-            onClick={() => navigate("/policy")}
-            className="shadow-lg hover:shadow-xl transition-all duration-200"
-            size="sm"
-          >
-            <BookOpen className="h-4 w-4 mr-2" />
-            NNYP Policy
-          </Button>
-        </div>
-      )}
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
@@ -113,7 +100,7 @@ const Index = () => {
               className="text-lg px-8 py-6"
             >
               <FileText className="mr-2 h-5 w-5" />
-              View NNYP Policy
+              View NYP Policy
             </Button>
           </div>
 
@@ -277,7 +264,7 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button variant="outline" size="lg" onClick={() => navigate("/policy")}>
-                Learn About NNYP
+                Learn About NYP
               </Button>
             </div>
           </div>

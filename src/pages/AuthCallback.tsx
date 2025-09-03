@@ -9,15 +9,25 @@ const AuthCallback = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Exchange OAuth code for a session if present
-        const { data: exchangeData, error: exchangeError } = await supabase.auth.exchangeCodeForSession(window.location.href);
-        if (exchangeError) {
-          console.error('OAuth exchange error:', exchangeError.message);
+        // Get the current URL
+        const url = new URL(window.location.href);
+        const code = url.searchParams.get('code');
+        
+        if (code) {
+          // Exchange OAuth code for a session
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(window.location.href);
+          if (exchangeError) {
+            console.error('OAuth exchange error:', exchangeError.message);
+            navigate('/auth');
+            return;
+          }
         }
+        
+        // Check for current session
         const { data: { session } } = await supabase.auth.getSession();
         
         if (session) {
-          // User is authenticated, profiles are automatically created by trigger
+          // User is authenticated, redirect to dashboard
           navigate('/dashboard');
         } else {
           // No session, redirect to auth
